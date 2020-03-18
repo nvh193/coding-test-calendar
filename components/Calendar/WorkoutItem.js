@@ -15,8 +15,26 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle
 });
 
-function WorkoutItem({ workoutId, workout, index }) {
+var objectId = function () {
+  var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+  return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
+      return (Math.random() * 16 | 0).toString(16);
+  }).toLowerCase();
+};
+
+function WorkoutItem({ workoutId, workout, index, addExercise}) {
   if (!workout) return null;
+
+  const handleAddExercise = () => {
+    const exercise = {
+      _id: objectId(),
+      name: 'Exercise E',
+      setInformation: '50 lb x 5',
+      sets: 1
+    }
+    addExercise(workoutId, exercise)
+  }
+
   return (
     <Draggable key={workoutId} draggableId={workoutId} index={index} >
       {(provided, snapshot) => (
@@ -36,7 +54,7 @@ function WorkoutItem({ workoutId, workout, index }) {
             ))}
           </div>
           <div className="workoutItem__footer">
-            <img src="/static/images/plus_icon.svg" />
+            <img onClick={handleAddExercise} src="/static/images/plus_icon.svg" />
           </div>
         </WorkoutItemWrapper>
       )}

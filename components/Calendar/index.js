@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, resetServerContext } from "react-beautiful-dnd";
 
 import { Creators } from "../../store/calendar/reducer";
 import { CalendarWrapper } from "./calendar.style";
@@ -31,6 +31,10 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 };
 
 function Calendar({ days, rearrangeDays }) {
+
+  // fix bug dnd with SSR
+  resetServerContext();
+
   const onDragEnd = result => {
     const { source, destination } = result;
     const sourceDay = source.droppableId.split("_")[1];

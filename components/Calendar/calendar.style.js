@@ -2,14 +2,14 @@ import styled from "styled-components";
 
 export const CalendarWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(7, calc((100% - 6 * 0.625em) / 7));
   grid-template-rows: auto;
   grid-gap: 0.625em;
-  with: 100vw;
+  width: calc(100vw - 7.9375em );;
   min-width: 1080px;
-  height: 80vh;
+  height: calc(100vh - 11.8125em );
   color: #6A7988;
-  padding: 10px 90px 12px 37px;
+  padding: 9.0625em 2.3125em 0.75em 5.625em;
 
   
 }
@@ -49,9 +49,8 @@ export const WorkoutItemWrapper = styled.div`
   border: 1px solid rgba(34, 36, 38, 0.15);
   box-sizing: border-box;
   border-radius: 6px;
-  max-width: 162px;
   width: 100%;
-  /* padding: 0.625em; */
+
   margin-bottom: 0.3125em;
   .workoutItem__heading {
     display: flex;

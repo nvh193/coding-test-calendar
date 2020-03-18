@@ -15,7 +15,8 @@ function transformData() {
 const INITIAL_STATE = Immutable(transformData());
 
 export const { Types, Creators } = createActions({
-  rearrangeDays: ["days"]
+  rearrangeDays: ["days"],
+  addExercise: ["workoutId", "exercise"],
 });
 
 export const handleRerrangeDays = (state, action) =>
@@ -26,8 +27,20 @@ export const handleRerrangeDays = (state, action) =>
     }
   });
 
+export const handleAddExercise = (state, action) => // TODO refactor
+  Immutable.merge(state, {
+    workouts: {
+      ...state.workouts,
+      [action.workoutId]: {
+        ...state.workouts[action.workoutId],
+        exercises: state.workouts[action.workoutId].exercises.concat([action.exercise])
+      }
+    }
+  });
+
 export const HANDLERS = {
-  [Types.REARRANGE_DAYS]: handleRerrangeDays
+  [Types.REARRANGE_DAYS]: handleRerrangeDays,
+  [Types.ADD_EXERCISE]: handleAddExercise
 };
 
 export default createReducer(INITIAL_STATE, HANDLERS);
