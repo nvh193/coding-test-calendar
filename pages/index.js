@@ -2,10 +2,6 @@ import React, { useEffect } from 'react'
 import Calendar from '../components/Calendar'
 
 const Counter = props => {
-  if (isServer) {
-    return null
-  }
-
   return <Calendar title="Calendar" />
 }
 
