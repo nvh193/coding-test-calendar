@@ -78,6 +78,9 @@ export const WorkoutItemWrapper = styled.div`
     text-align: right;
     padding-right: 4px;
     margin-top: -3px;
+    img {
+      cursor: pointer;
+    }
   }
 `;
 
