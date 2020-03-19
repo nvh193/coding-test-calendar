@@ -5,11 +5,11 @@ export const CalendarWrapper = styled.div`
   grid-template-columns: repeat(7, calc((100% - 6 * 0.625em) / 7));
   grid-template-rows: auto;
   grid-gap: 0.625em;
-  width: calc(100vw - 7.9375em );;
+  width: calc(100vw - 8em );;
   min-width: 1080px;
-  height: calc(100vh - 11.8125em );
+  height: calc(100vh - 8em );
   color: #6A7988;
-  padding: 9.0625em 2.3125em 0.75em 5.625em;
+  padding: 4em;
 
   
 }
