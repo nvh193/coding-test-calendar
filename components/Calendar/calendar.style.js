@@ -7,11 +7,9 @@ export const CalendarWrapper = styled.div`
   grid-gap: 0.625em;
   width: calc(100vw - 8em );;
   min-width: 1080px;
-  height: calc(100vh - 8em );
+  height: calc(100vh - 9em );
   color: #6A7988;
   padding: 4em;
-
-  
 }
 `;
 export const DayContainerWrapper = styled.div`
