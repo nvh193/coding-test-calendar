@@ -24,26 +24,34 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   destClone.splice(droppableDestination.index, 0, removed);
 
   const result = {};
-  result[droppableSource.day] = sourceClone;
-  result[droppableDestination.day] = destClone;
+  result[droppableSource.id] = sourceClone;
+  result[droppableDestination.id] = destClone;
 
   return result;
 };
 
-function Calendar({ days, rearrangeDays }) {
-
+function Calendar({ days, workouts, rearrangeDays, rearrangeWorkouts }) {
   // fix bug dnd with SSR
   resetServerContext();
 
   const onDragEnd = result => {
-    const { source, destination } = result;
+    if (!result.destination) {
+      return;
+    }
+
+    if (result.type === "workout") {
+      handleDragEndWorkoutContainer(result);
+    } else if (result.type === "day") {
+      handleDragEndDayContainer(result);
+    }
+  };
+
+  const handleDragEndDayContainer = (result) => {
+    const { source, destination, type } = result;
     const sourceDay = source.droppableId.split("_")[1];
     const destinationDay = destination.droppableId.split("_")[1];
-    source.day = sourceDay;
-    destination.day = destinationDay;
-
-    const updateData = {};
-    updateData[sourceDay] = days[sourceDay];
+    source.id = sourceDay;
+    destination.id = destinationDay;
 
     if (!destination) {
       return;
@@ -55,10 +63,46 @@ function Calendar({ days, rearrangeDays }) {
         [sourceDay]: items
       });
     } else {
-      const result = move(days[sourceDay], days[destinationDay], source, destination);
-      rearrangeDays(result);
+      rearrangeDays(move(days[sourceDay], days[destinationDay], source, destination));
     }
   };
+
+  const handleDragEndWorkoutContainer = (result) => {
+    const { source, destination, type } = result;
+    const sourceWorkoutId = source.droppableId.split("_")[1];
+    const destinationWorkoutId = destination.droppableId.split("_")[1];
+    const exercisesSource = _.get(workouts, [sourceWorkoutId, 'exercises'], [])
+    const exercisesDestiantion = _.get(workouts, [destinationWorkoutId, 'exercises'], [])
+    source.id = sourceWorkoutId;
+    destination.id = destinationWorkoutId;
+
+    if (!destination) {
+      return;
+    }
+
+    if (source.droppableId === destination.droppableId) {
+      const items = reorder(exercisesSource, source.index, destination.index);
+      rearrangeWorkouts({
+        [sourceWorkoutId]: {
+          ..._.get(workouts, [sourceWorkoutId]),
+          exercises: items
+        }
+      });
+    } else {
+      const resultDrag = move(exercisesSource, exercisesDestiantion, source, destination)
+      rearrangeWorkouts({
+        [sourceWorkoutId]: {
+          ..._.get(workouts, [sourceWorkoutId]),
+          exercises: resultDrag[sourceWorkoutId]
+        },
+        [destinationWorkoutId]: {
+          ..._.get(workouts, [destinationWorkoutId]),
+          exercises: resultDrag[destinationWorkoutId]
+        },
+      });
+    }
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <CalendarWrapper>
@@ -72,7 +116,8 @@ function Calendar({ days, rearrangeDays }) {
 
 const mapStateToProps = (state, props) => {
   return {
-    days: state.calendar.days
+    days: state.calendar.days,
+    workouts: state.calendar.workouts
   };
 };
 

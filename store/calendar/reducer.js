@@ -16,6 +16,7 @@ const INITIAL_STATE = Immutable(transformData());
 
 export const { Types, Creators } = createActions({
   rearrangeDays: ["days"],
+  rearrangeWorkouts: ["workouts"],
   addExercise: ["workoutId", "exercise"],
 });
 
@@ -24,6 +25,14 @@ export const handleRerrangeDays = (state, action) =>
     days: {
       ...state.days,
       ...action.days
+    }
+  });
+
+export const handleRearrangeWorkouts = (state, action) =>
+  Immutable.merge(state, {
+    workouts: {
+      ...state.workouts,
+      ...action.workouts
     }
   });
 
@@ -40,6 +49,7 @@ export const handleAddExercise = (state, action) => // TODO refactor
 
 export const HANDLERS = {
   [Types.REARRANGE_DAYS]: handleRerrangeDays,
+  [Types.REARRANGE_WORKOUTS]: handleRearrangeWorkouts,
   [Types.ADD_EXERCISE]: handleAddExercise
 };
 

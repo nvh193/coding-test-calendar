@@ -15,28 +15,33 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle
 });
 
-var objectId = function () {
-  var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
-  return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
-      return (Math.random() * 16 | 0).toString(16);
-  }).toLowerCase();
+var objectId = function() {
+  var timestamp = ((new Date().getTime() / 1000) | 0).toString(16);
+  return (
+    timestamp +
+    "xxxxxxxxxxxxxxxx"
+      .replace(/[x]/g, function() {
+        return ((Math.random() * 16) | 0).toString(16);
+      })
+      .toLowerCase()
+  );
 };
 
-function WorkoutItem({ workoutId, workout, index, addExercise}) {
+function WorkoutItem({ workoutId, workout, index, addExercise }) {
   if (!workout) return null;
 
   const handleAddExercise = () => {
     const exercise = {
       _id: objectId(),
-      name: 'Exercise E',
-      setInformation: '50 lb x 5',
+      name: "Exercise E",
+      setInformation: "50 lb x 5",
       sets: 1
-    }
-    addExercise(workoutId, exercise)
-  }
+    };
+    addExercise(workoutId, exercise);
+  };
 
   return (
-    <Draggable key={workoutId} draggableId={workoutId} index={index} >
+    <Draggable key={workoutId} draggableId={workoutId} index={index}  type="day">
       {(provided, snapshot) => (
         <WorkoutItemWrapper
           ref={provided.innerRef}
@@ -48,11 +53,16 @@ function WorkoutItem({ workoutId, workout, index, addExercise}) {
             <div className="workoutHeading__workoutName">{workout.name}</div>
             <img className="workoutHeading__extraBtn" src="/static/images/three_dot.svg" />
           </div>
-          <div className="workoutItem__exercises">
-            {(workout.exercises || []).map(exe => (
-              <ExerciseItem {...exe} key={exe._id} />
-            ))}
-          </div>
+
+          <Droppable droppableId={`workout_${workoutId}`} type="workout">
+            {(provided, snapshot) => (
+              <div ref={provided.innerRef} className="workoutItem__exercises">
+                {(workout.exercises || []).map((exe, i) => (
+                  <ExerciseItem {...exe} key={exe._id} index={i} />
+                ))}
+              </div>
+            )}
+          </Droppable>
           <div className="workoutItem__footer">
             <img onClick={handleAddExercise} src="/static/images/plus_icon.svg" />
           </div>

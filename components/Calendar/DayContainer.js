@@ -12,7 +12,7 @@ function DayContainer({ day, dayTitle, workouts }) {
   const currentDay = moment().startOf("isoWeek").add(day, "days").date()
     
   return (
-    <Droppable droppableId={`day_${day}`}>
+    <Droppable droppableId={`day_${day}`} type="day">
       {(provided, snapshot) => (
         <DayContainerWrapper ref={provided.innerRef} isActive={dayNow === currentDay}>
           <div className="dayContainer__heading">

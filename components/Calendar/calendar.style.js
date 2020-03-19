@@ -93,7 +93,7 @@ export const ExerciseItemWrapper = styled.div`
   padding: 0.3125em 0.5626em;
   .exerciseItem__heading {
     font-weight: 600;
-    font-size: 13px;
+    font-size: 0.8125em;
     line-height: 18px;
     /* identical to box height */
 
@@ -113,7 +113,7 @@ export const ExerciseItemWrapper = styled.div`
     .dayBody__sets {
       font-style: normal;
       font-weight: bold;
-      font-size: 10px;
+      font-size: 0.625em;
       line-height: 14px;
       /* identical to box height */
 
@@ -125,7 +125,7 @@ export const ExerciseItemWrapper = styled.div`
     .dayBody__information {
       font-style: normal;
       font-weight: normal;
-      font-size: 10px;
+      font-size: 0.625em;
       line-height: 14px;
       /* identical to box height */
 
