@@ -6,6 +6,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  outline: none;
 }
 
 @media (min-width: 1200px) and (max-width: 1366px) {

@@ -19,7 +19,9 @@ export default class MyDocument extends Document {
       <html>
         <Head>
           {this.props.styleTags}
+          <title>Everfit - Coding test</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="description" content="Coding test" />
           <meta charSet="utf-8" />
           <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
           <link rel="stylesheet" href="/static/css/global.css" />
